@@ -13,11 +13,13 @@ function CheckoutPage() {
     zipCode: '',
     creditCard: '',
     deliveryType: 'homeDelivery',
-    storeId: null,
+    storeId: '',
   });
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [confirmationNumber, setConfirmationNumber] = useState('');
   const [pickupDate, setPickupDate] = useState('');
+  const [orderDate, setOrderDate] = useState('');
+  const [orderTotals, setOrderTotals] = useState({});
   const navigate = useNavigate();
 
   const storeLocations = [
@@ -41,27 +43,46 @@ function CheckoutPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Generate a confirmation number (for demo purposes, using a random number)
+    // Calculate totals
+    const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const shippingCost = 10;
+    const tax = totalAmount * 0.08;
+    const totalWithShippingAndTax = totalAmount + shippingCost + tax;
+
+    // Generate a confirmation number (for demo purposes)
     const newConfirmationNumber = Math.floor(Math.random() * 1000000).toString();
     setConfirmationNumber(newConfirmationNumber);
 
-    // Set pickup date to 2 weeks from now
+    // Set pickup date to 12 days from now
     const orderDate = new Date();
-    const deliveryDate = new Date(orderDate.setDate(orderDate.getDate() + 14));
+    const deliveryDate = new Date(orderDate.getTime() + 12 * 24 * 60 * 60 * 1000); // Delivery date exactly 12 days from now
     setPickupDate(deliveryDate.toDateString());
+    setOrderDate(orderDate.toDateString());
 
-    checkout(customerData);
+    // Prepare order details
+    const orderDetails = {
+      confirmationNumber: newConfirmationNumber,
+      orderDate: orderDate.toISOString(),
+      deliveryDate: deliveryDate.toISOString(),
+      cart: cart, // Include all cart items with image URLs
+      totalCost: totalWithShippingAndTax,
+    };
+
+    // Call checkout function and pass order details
+    checkout(customerData, orderDetails);
+
+    setOrderTotals({
+      totalAmount,
+      shippingCost,
+      tax,
+      totalWithShippingAndTax
+    });
+
     setOrderPlaced(true);
     setTimeout(() => {
-      navigate('/');
+      navigate('/orders', { state: { orderDetails } }); // Pass order details to OrdersPage
     }, 3000);
   };
-
-  // Calculate total amount, shipping, and tax
-  const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  const shippingCost = 10; // Example shipping cost
-  const tax = totalAmount * 0.08; // Example tax at 8%
-  const totalWithShippingAndTax = totalAmount + shippingCost + tax;
 
   return (
     <div>
@@ -74,8 +95,9 @@ function CheckoutPage() {
             <div className="order-confirmation">
               <h3>Your order has been placed successfully!</h3>
               <p>Confirmation Number: {confirmationNumber}</p>
+              <p>Order Date: {orderDate}</p>
               <p>Pickup/Delivery Date: {pickupDate}</p>
-              <p>You will be redirected to the homepage shortly.</p>
+              <p>You will be redirected to the orders page shortly.</p>
             </div>
           ) : (
             <form className="checkout-form" onSubmit={handleSubmit}>
@@ -183,10 +205,10 @@ function CheckoutPage() {
               </li>
             ))}
           </ul>
-          <p>Subtotal: ${totalAmount.toFixed(2)}</p>
-          <p>Shipping: ${shippingCost.toFixed(2)}</p>
-          <p>Tax: ${tax.toFixed(2)}</p>
-          <h3>Total: ${totalWithShippingAndTax.toFixed(2)}</h3>
+          <p>Subtotal: ${orderTotals.totalAmount ? orderTotals.totalAmount.toFixed(2) : '0.00'}</p>
+          <p>Shipping: ${orderTotals.shippingCost ? orderTotals.shippingCost.toFixed(2) : '0.00'}</p>
+          <p>Tax: ${orderTotals.tax ? orderTotals.tax.toFixed(2) : '0.00'}</p>
+          <h3>Total: ${orderTotals.totalWithShippingAndTax ? orderTotals.totalWithShippingAndTax.toFixed(2) : '0.00'}</h3>
         </div>
       </div>
     </div>

@@ -266,7 +266,7 @@ footer .footer-bottom p a {
 }
 
 /* Media Queries */
-@media screen and (max-width: 740px) {
+@media screen and (max-width: 1200px) {
   body {
     font-size: 0.8em;
   }
@@ -506,37 +506,42 @@ nav .login-item:hover .dropdown-menu {
 
 /* Cart page */
 
-.cart-icon {
+/* Cart Page Styles */
+
+/* Cart Page Container */
+.cart-page {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Header Styles */
+.cart-page header {
+  margin-bottom: 20px;
+}
+
+/* Main Content Styles */
+.main-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-left: auto;
-  position: relative;
 }
 
-.cart-icon a {
-  color: black;
-  text-decoration: none;
+h2 {
+  margin-bottom: 20px;
 }
 
-.cart-icon a:hover {
-  color: red;
-}
-
-.cart-count {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background-color: red;
-  color: rgb(14, 1, 1);
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-}
-
+/* Cart Item Box */
 .cart-item {
   display: flex;
   align-items: center;
+  padding: 10px;
   margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 600px;
 }
 
 .cart-item-image {
@@ -549,6 +554,7 @@ nav .login-item:hover .dropdown-menu {
   flex: 1;
 }
 
+/* Quantity Controls Styles */
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -556,18 +562,80 @@ nav .login-item:hover .dropdown-menu {
 }
 
 .quantity-controls button {
+  font-size: 1rem;
+  /* Standard font size for buttons */
+  padding: 5px 10px;
+  /* Standard padding for buttons */
   margin: 0 5px;
+  /* Standard margin between buttons */
+  line-height: 1;
+  /* Normal line height to fit button text */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* Slightly rounded corners */
+  background-color: #a19e9e;
+  /* Background color for buttons */
+  cursor: pointer;
+  /* Change cursor to pointer on hover */
+}
+
+.quantity-controls button:hover {
+  background-color: #070707;
+  /* Slightly darker background on hover */
+}
+
+.quantity-controls button:disabled {
+  cursor: not-allowed;
+  /* Change cursor to indicate disabled state */
+  opacity: 0.5;
+  /* Slightly transparent when disabled */
+}
+
+
+.cart-total {
+  margin-top: 20px;
 }
 
 .delivery-option {
   margin-top: 20px;
 }
 
+.delivery-option label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.checkout-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background-color: darkred;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-item-image {
+    margin-bottom: 10px;
+  }
+}
+
 /* login Header   */
 .header {
   display: flex;
   flex-direction: column;
-  /* Stack logo and content vertically */
   padding: 10px 20px;
   background-color: #fff;
   border-bottom: 1px solid #ccc;
@@ -575,7 +643,6 @@ nav .login-item:hover .dropdown-menu {
 
 .logo-container {
   margin-bottom: 10px;
-  /* Space between logo and navigation/icons */
 }
 
 .logo {
@@ -586,15 +653,12 @@ nav .login-item:hover .dropdown-menu {
 .header-content {
   display: flex;
   justify-content: space-between;
-  /* Space between navigation and icons */
   align-items: center;
   width: 100%;
-  /* Full width for alignment */
 }
 
 nav {
   flex: 1;
-  /* Take up available space */
 }
 
 nav ul {
@@ -615,7 +679,6 @@ nav ul li a {
   display: block;
   border-radius: 5px;
   font-size: 18px;
-  /* Increase font size */
 }
 
 nav ul li a:hover,
@@ -625,7 +688,6 @@ nav ul li.active a {
 
 nav ul li.active a {
   background-color: red;
-  /* Highlight active page */
   color: white;
 }
 
@@ -640,13 +702,9 @@ nav ul li.active a {
   position: relative;
   cursor: pointer;
   font-size: 24px;
-  /* Adjust icon size */
   background: #f0f0f0;
-  /* Background to match navigation buttons */
   border-radius: 5px;
-  /* Rounded corners */
   padding: 10px;
-  /* Add padding for background */
 }
 
 .cart-badge {
@@ -746,4 +804,263 @@ nav ul li.active a {
     margin-bottom: 20px;
     /* Space between stacked elements */
   }
+}
+
+/* LoginPage.js */
+//* src/pages/LoginPage.css */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  background-color: #f4f4f4;
+  /* Adjust background color as needed */
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: #e33906;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+p {
+  margin-top: 15px;
+}
+
+p button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+}
+
+p button:hover {
+  text-decoration: underline;
+}
+
+/* Header.css */
+
+/* Header.css */
+
+/* General Header Styles */
+.header {
+  width: 100%;
+  background-color: white;
+  /* Optional: adjust color */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+/* Navigation Styles */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  justify-content: flex-start;
+  /* Ensure the nav menu stays to the left */
+}
+
+.nav-menu li {
+  margin-right: 20px;
+  /* Consistent margin between menu items */
+  position: relative;
+}
+
+.nav-menu .nav-link {
+  text-decoration: none;
+  color: #000;
+  padding: 10px;
+}
+
+.nav-menu .nav-link:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.nav-menu .active .nav-link {
+  font-weight: bold;
+}
+
+/* Login Dropdown Menu Styles */
+.login-item {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  /* Align the dropdown to the right so it doesn't overflow */
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 200px;
+  /* Consistent width for dropdown menu */
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+  /* Consistent padding for dropdown items */
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+}
+
+.dropdown-menu li a:hover {
+  background: #f0f0f0;
+}
+
+/* Show dropdown on hover */
+.login-item:hover .dropdown-menu {
+  display: block;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    /* Stack header content on small screens */
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dropdown-menu {
+    width: auto;
+    /* Allow width to adjust for smaller screens */
+    left: 0;
+    /* Ensure dropdown is aligned properly on smaller screens */
+  }
+}
+
+/* Orders Page */
+.orders-page {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.order-item img {
+  max-width: 100px;
+  height: auto;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.order-details {
+  flex: 1;
+}
+
+.order-details h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.order-details .item-info {
+  margin: 5px 0;
+  color: #666;
+}
+
+.order-summary {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.order-summary h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.order-summary p {
+  margin: 10px 0;
+  color: #555;
+}
+
+.cancel-order-btn {
+  background-color: #d9534f;
+  /* Bootstrap danger color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.cancel-order-btn:hover {
+  background-color: #c9302c;
 }

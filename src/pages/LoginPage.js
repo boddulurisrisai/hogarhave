@@ -1,10 +1,7 @@
-// src/pages/LoginPage.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import Header from '../components/Header'; // Import Header component
-import Footer from '../components/Footer'; // Import Footer component
-import './LoginPage.css'; // Import the CSS file for styling
-import './CustomerLandingPage'
+
 function LoginPage() {
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
   const [email, setEmail] = useState('');
@@ -13,17 +10,12 @@ function LoginPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // You can add validation or API calls here for authentication
     if (isLogin) {
-      // For demo purposes, we'll assume login is always successful.
-      // After successful login, navigate to the homepage.
       console.log('Email:', email);
       console.log('Password:', password);
       navigate('/CustomerLandingPage'); // Redirect to the homepage
     } else {
-      // Handle signup logic here
       console.log('Signing up with', email);
-      // Redirect to a different page if needed after signup
       navigate('/'); // Redirect to the homepage after signup
     }
   };
@@ -31,15 +23,14 @@ function LoginPage() {
   const handleToggle = () => {
     setIsLogin(!isLogin);
     if (!isLogin) {
-      // Navigate to the signup page if user is toggling to sign up
       navigate('/signup');
     }
   };
 
   return (
     <>
+      <Header /> {/* Use Header component */}
       <div className="login-page">
-        <Header />
         <div className="login-box">
           <section id="content">
             <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
@@ -74,7 +65,6 @@ function LoginPage() {
             </p>
           </section>
         </div>
-        <Footer />
       </div>
     </>
   );

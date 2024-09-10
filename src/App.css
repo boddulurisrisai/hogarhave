@@ -1,97 +1,93 @@
-.App {
-  text-align: center;
-  background-color: #fff;
-  /* Set background to white */
-  color: #000;
-  /* Set text color to black for contrast */
+/* Remove margins and padding from the body */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #fff;
-  /* Set header background to white */
-  min-height: 100vh;
+/* Ensure container takes full width and height */
+#container {
+  width: 100%;
+  height: 100vh;
+  /* Full viewport height */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: #000;
-  /* Set text color to black for contrast */
 }
 
-.App-link {
-  color: #ff0000;
-  /* Update link color to red */
+/* Adjust header, main content, and footer styling */
+header {
+  width: 90%;
+  padding: 20px;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Product grid styles */
-.product-grid {
+#body {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  flex: 1;
+  padding: 20px;
+  /* Adjust as needed */
+  background-color: #f8f8f8;
+}
+
+.sidebar {
+  width: 20%;
   background-color: #fff;
-  /* Set background to white */
-  padding: 20px 0;
-  /* Add padding for spacing */
+  padding: 10px;
+  border-right: 1px solid #ccc;
+}
+
+.product-highlights {
+  width: 80%;
+  padding: 20px;
+  background-color: #fff;
+}
+
+footer {
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+
+/* Ensure product grid is responsive and fits well */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 .product-item {
-  width: 200px;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
   text-align: center;
-  margin: 10px;
+}
+
+/* Styling for the product grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-item {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
 .product-item img {
-  width: 100%;
-  height: 150px;
+  width: 200px;
+  /* Set a fixed width */
+  height: 200px;
+  /* Set a fixed height */
   object-fit: cover;
-  border-radius: 8px;
-}
-
-.product-item h3,
-.product-item p {
-  margin-top: 10px;
-  font-size: 16px;
-}
-
-.product-item p {
-  color: #555;
-}
-
-.product-item strong {
-  color: #000;
-  /* Price bold and dark */
-}
-
-.button {
-  padding: 10px 20px;
-  background-color: #ff0000;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #cc0000;
+  /* Ensure the image covers the space while maintaining aspect ratio */
+  margin-bottom: 10px;
 }

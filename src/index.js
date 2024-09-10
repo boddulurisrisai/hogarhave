@@ -14,6 +14,7 @@ import CartPage from './pages/CartPage';
 import { CartProvider } from './CartContext'; // Import CartProvider
 import reportWebVitals from './reportWebVitals';
 import CheckoutPage from './pages/CheckoutPage';
+import OrdersPage from './pages/OrdersPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -31,6 +32,8 @@ root.render(
           <Route path="/products/speakers" element={<SmartSpeaker />} />
           <Route path="/products/thermostats" element={<SmartThermostat />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
+
 
         </Routes>
       </CartProvider>

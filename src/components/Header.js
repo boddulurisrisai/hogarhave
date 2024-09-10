@@ -1,59 +1,66 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
+  const location = useLocation(); // Get the current location
 
   // Function to toggle dropdown visibility
   const toggleDropdown = () => {
-    setShowDropdown((prevState) => !prevState);
+    setShowDropdown(prev => !prev);
   };
 
-  return (
-    <header>
-      <div className="width">
-        <NavLink to="/" className="logo">
-          <h1>Smart Homes</h1>
-        </NavLink>
-      </div>
-      <nav>
-        <div className="width">
-          <ul className="nav-menu">
-            <li>
-              <NavLink exact="true" to="/" activeClassName="selected">Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/products/doorbells" activeClassName="selected">Smart Doorbell</NavLink>
-            </li>
-            <li>
-              <NavLink to="/products/doorlocks" activeClassName="selected">Smart Doorlock</NavLink>
-            </li>
-            <li>
-              <NavLink to="/products/lighting" activeClassName="selected">Smart Lighting</NavLink>
-            </li>
-            <li>
-              <NavLink to="/products/speakers" activeClassName="selected">Smart Speakers</NavLink>
-            </li>
-            <li>
-              <NavLink to="/products/thermostats" activeClassName="selected">Smart Thermostats</NavLink>
-            </li>
+  // Determine if the current path matches the link
+  const isActive = (path) => location.pathname === path;
 
+  return (
+    <header className="header">
+      <div className="logo-container">
+        <Link to="/" className="logo">
+          <h1>Smart Homes</h1>
+        </Link>
+      </div>
+      <div className="header-content">
+        <nav>
+          <ul className="nav-menu">
+            <li className={isActive('/') ? 'active' : ''}>
+              <Link to="/">Home</Link>
+            </li>
+            <li className={isActive('/products/doorbells') ? 'active' : ''}>
+              <Link to="/products/doorbells">Smart Doorbell</Link>
+            </li>
+            <li className={isActive('/products/doorlocks') ? 'active' : ''}>
+              <Link to="/products/doorlocks">Smart Doorlock</Link>
+            </li>
+            <li className={isActive('/products/lighting') ? 'active' : ''}>
+              <Link to="/products/lighting">Smart Lighting</Link>
+            </li>
+            <li className={isActive('/products/speakers') ? 'active' : ''}>
+              <Link to="/products/speakers">Smart Speaker</Link>
+            </li>
+            <li className={isActive('/products/thermostats') ? 'active' : ''}>
+              <Link to="/products/thermostats">Smart Thermostat</Link>
+            </li>
             {/* Login Dropdown */}
             <li className="nav-item login-item" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
-              <a href="#">Login</a>
+              <button className="nav-link login-button">Login</button>
               {showDropdown && (
                 <ul className="dropdown-menu">
-                  <li className="dropdown-item">
-                    <NavLink to="/CustomerLogin">Customer</NavLink>
+                  <li>
+                    <Link to="/CustomerLogin">Customer</Link>
                   </li>
-                  <li className="dropdown-item"><a href="#">Store Manager</a></li>
-                  <li className="dropdown-item"><a href="#">Salesman</a></li>
+                  <li>
+                    <Link to="/store-manager-login">Store Manager</Link>
+                  </li>
+                  <li>
+                    <Link to="/salesman-login">Salesman</Link>
+                  </li>
                 </ul>
               )}
             </li>
           </ul>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
   );
 }
