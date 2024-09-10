@@ -1,0 +1,97 @@
+.App {
+  text-align: center;
+  background-color: #fff;
+  /* Set background to white */
+  color: #000;
+  /* Set text color to black for contrast */
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #fff;
+  /* Set header background to white */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #000;
+  /* Set text color to black for contrast */
+}
+
+.App-link {
+  color: #ff0000;
+  /* Update link color to red */
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Product grid styles */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: #fff;
+  /* Set background to white */
+  padding: 20px 0;
+  /* Add padding for spacing */
+}
+
+.product-item {
+  width: 200px;
+  text-align: center;
+  margin: 10px;
+}
+
+.product-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-item h3,
+.product-item p {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.product-item p {
+  color: #555;
+}
+
+.product-item strong {
+  color: #000;
+  /* Price bold and dark */
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #cc0000;
+}

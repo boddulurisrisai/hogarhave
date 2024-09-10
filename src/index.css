@@ -1,0 +1,749 @@
+/* index.css */
+
+/* Main body container */
+#body {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  width: 95%;
+  background-color: #fff;
+  /* Set background to white */
+}
+
+/* Content Section */
+#content {
+  flex: 3;
+  padding-right: 20px;
+}
+
+/* Sidebar Section */
+.sidebar {
+  flex: 1;
+  padding-left: 20px;
+  border-left: 1px solid #ddd;
+}
+
+/* Product grid styles */
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: #fff;
+  /* Set background to white */
+  padding: 20px 0;
+  /* Add padding for spacing */
+}
+
+.product-item {
+  width: 200px;
+  margin: 10px;
+  text-align: center;
+}
+
+.product-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-item h3 {
+  margin-top: 10px;
+}
+
+.clear {
+  clear: both;
+}
+
+/* Footer styling */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* General styles */
+body {
+  background: #fff;
+  /* Set background to white */
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', 'sans-serif';
+  font-size: 1.0em;
+  color: #000;
+  /* Set text color to black */
+  font-weight: 200;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #ff0000;
+  /* Update link color to red */
+}
+
+a:hover {
+  color: #cc0000;
+}
+
+a:focus {
+  outline: none;
+}
+
+a.button {
+  background-color: #ff0000;
+  border-radius: 5px;
+  color: #fff;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 8px 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+a.button:hover {
+  background-color: #cc0000;
+}
+
+header {
+  padding: 40px 20px;
+  background-color: #f8f8f8;
+  /* Light gray background for header */
+  text-align: left;
+}
+
+header h1 a,
+header h1 a:hover {
+  color: #000;
+  font-size: 1.4em;
+  padding: 10px;
+  font-weight: normal;
+  letter-spacing: -2px;
+  line-height: 1.2em;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+nav {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  height: 45px;
+  background-color: #f1f1f1;
+  /* Light gray background for nav */
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  float: left;
+  display: block;
+  padding: 0;
+}
+
+nav ul li a {
+  color: #333;
+  display: block;
+  font-size: 0.85em;
+  margin: 5px 3px 0;
+  padding: 8px 10px;
+  text-decoration: none;
+}
+
+nav ul li.selected a,
+nav ul li.selected a:hover {
+  color: #fff;
+  background-color: #ff0000;
+  /* Red background for selected item */
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  color: #cc0000;
+  text-decoration: none;
+}
+
+img.header-image {
+  padding-top: 10px;
+  margin-bottom: -3px;
+}
+
+#container {
+  background-color: #fff;
+  /* Set background to white */
+  width: 980px;
+  border-left: 30px solid #f1f1f1;
+  /* Light gray border */
+  border-right: 30px solid #f1f1f1;
+  /* Light gray border */
+  margin: 0 auto;
+}
+
+footer {
+  margin: 20px auto 0;
+  background: #f1f1f1;
+  /* Light gray background */
+  border-top: 10px solid #ff0000;
+  /* Red border at top */
+}
+
+footer p {
+  text-align: left;
+  color: #333;
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+footer p a {
+  color: #333;
+  font-weight: bold;
+}
+
+.footer-content {
+  padding: 20px 25px 30px;
+}
+
+footer .footer-content ul {
+  width: 260px;
+  list-style: none;
+  margin: 0 65px 0 0;
+  padding: 0;
+  float: left;
+}
+
+footer .footer-content li {
+  padding: 5px 5px;
+}
+
+footer .footer-content li a {
+  color: #333;
+  font-size: 0.8em;
+  text-decoration: underline;
+}
+
+footer .footer-content li a:hover {
+  color: #555;
+}
+
+footer .footer-content h4 {
+  color: #333;
+  font-size: 1.3em;
+  font-weight: bold;
+  padding-bottom: 0;
+}
+
+footer .footer-content ul.endfooter {
+  margin-right: 0;
+}
+
+footer .footer-bottom {
+  padding: 10px;
+  text-align: center;
+  background-color: #f8f8f8;
+  /* Light gray background */
+}
+
+footer .footer-bottom p {
+  text-align: center;
+}
+
+footer .footer-bottom p,
+footer .footer-bottom p a {
+  color: #333;
+}
+
+/* Media Queries */
+@media screen and (max-width: 740px) {
+  body {
+    font-size: 0.8em;
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  header h1 {
+    text-align: center;
+  }
+
+  div#container {
+    width: auto;
+  }
+
+  /* Footer styling */
+  .footer-content {
+    display: flex;
+    /* Use flexbox to arrange items horizontally */
+    justify-content: space-between;
+    /* Distribute space between items */
+    padding: 20px;
+    background-color: #f1f1f1;
+  }
+
+  .footer-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    /* Arrange items horizontally */
+  }
+
+  .footer-content ul li {
+    margin-right: 20px;
+    /* Space between list items */
+  }
+
+  .footer-content ul li:last-child {
+    margin-right: 0;
+    /* Remove right margin from the last item */
+  }
+
+  .footer-content h4 {
+    margin-bottom: 10px;
+  }
+
+  /* Footer bottom styling */
+  .footer-bottom {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f8f8;
+  }
+
+  .footer-bottom p {
+    margin: 0;
+    color: #333;
+  }
+
+
+  .width {
+    width: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  #content,
+  .sidebar {
+    float: none;
+    width: auto;
+  }
+
+  footer .footer-content ul {
+    width: auto;
+    float: none;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  body {
+    font-size: 0.8em;
+  }
+
+  nav ul li {
+    float: none;
+    text-align: center;
+  }
+
+  nav ul li a {
+    margin-top: 0;
+  }
+
+  nav {
+    height: auto;
+    position: relative;
+  }
+}
+
+/* Customer Landing Page */
+
+/* Styling for the Customer Landing Page */
+.customer-landing-page {
+  text-align: center;
+  background-color: #fff;
+  color: #000;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.product-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.product-item {
+  width: 200px;
+  margin: 10px;
+  text-align: center;
+}
+
+.product-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-item h3 {
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.delivery-options,
+.product-selection {
+  margin: 20px 0;
+}
+
+footer {
+  margin: 20px auto 0;
+  background: #f1f1f1;
+  border-top: 10px solid #007bff;
+}
+
+/* Ensure the navigation container uses flexbox */
+nav .nav-menu {
+  display: flex;
+  justify-content: space-between;
+  /* Space between for left and right alignment */
+  align-items: center;
+  /* Align items vertically */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav .nav-menu li {
+  margin-right: 20px;
+}
+
+nav .nav-item.login-item {
+  margin-left: auto;
+  /* Pushes the login item to the far right */
+  position: relative;
+  /* Needed for dropdown positioning */
+}
+
+nav .login-item a {
+  text-decoration: none;
+  color: #000;
+  /* Adjust based on your color scheme */
+}
+
+nav .dropdown-menu {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  /* Adjust background as needed */
+  border: 1px solid #ccc;
+  list-style: none;
+  padding: 10px;
+  display: none;
+  /* Hidden by default */
+}
+
+nav .login-item:hover .dropdown-menu {
+  display: block;
+  /* Shows dropdown on hover */
+}
+
+.dropdown-item a {
+  color: #000;
+  /* Adjust link colors */
+  text-decoration: none;
+}
+
+.dropdown-item a:hover {
+  text-decoration: underline;
+}
+
+/* Smart Door Lock */
+
+/* src/App.css */
+.smart-doorlock-page .product-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.smart-doorlock-page .product-item {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  width: 200px;
+  text-align: center;
+}
+
+.smart-doorlock-page .cart {
+  margin-top: 2rem;
+}
+
+/* Cart page */
+
+.cart-icon {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  position: relative;
+}
+
+.cart-icon a {
+  color: black;
+  text-decoration: none;
+}
+
+.cart-icon a:hover {
+  color: red;
+}
+
+.cart-count {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: rgb(14, 1, 1);
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cart-item-image {
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+
+.cart-item-details {
+  flex: 1;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.quantity-controls button {
+  margin: 0 5px;
+}
+
+.delivery-option {
+  margin-top: 20px;
+}
+
+/* login Header   */
+.header {
+  display: flex;
+  flex-direction: column;
+  /* Stack logo and content vertically */
+  padding: 10px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo-container {
+  margin-bottom: 10px;
+  /* Space between logo and navigation/icons */
+}
+
+.logo {
+  text-decoration: none;
+  color: #000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  /* Space between navigation and icons */
+  align-items: center;
+  width: 100%;
+  /* Full width for alignment */
+}
+
+nav {
+  flex: 1;
+  /* Take up available space */
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  margin-right: 20px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #000;
+  padding: 10px;
+  display: block;
+  border-radius: 5px;
+  font-size: 18px;
+  /* Increase font size */
+}
+
+nav ul li a:hover,
+nav ul li.active a {
+  background-color: #f0f0f0;
+}
+
+nav ul li.active a {
+  background-color: red;
+  /* Highlight active page */
+  color: white;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+}
+
+.cart-icon,
+.account-icon {
+  margin-left: 20px;
+  position: relative;
+  cursor: pointer;
+  font-size: 24px;
+  /* Adjust icon size */
+  background: #f0f0f0;
+  /* Background to match navigation buttons */
+  border-radius: 5px;
+  /* Rounded corners */
+  padding: 10px;
+  /* Add padding for background */
+}
+
+.cart-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.account-menu {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 200px;
+  z-index: 1000;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #000;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background: #f0f0f0;
+}
+
+.order-details {
+  margin-top: 10px;
+}
+
+/* Checkout page */
+/* src/pages/CheckoutPage.css */
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  /* Stack boxes vertically */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.checkout-box,
+.order-summary {
+  width: 100%;
+  /* Full width of the container */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary {
+  margin-bottom: 20px;
+  /* Space between summary and checkout */
+}
+
+.checkout-box {
+  margin-bottom: 20px;
+  /* Space between checkout and order summary */
+}
+
+.checkout-container {
+  display: flex;
+  justify-content: space-between;
+  /* Space between the two boxes */
+}
+
+@media (max-width: 768px) {
+  .checkout-container {
+    flex-direction: column;
+    /* Stack checkout and order summary vertically on smaller screens */
+  }
+
+  .checkout-box,
+  .order-summary {
+    width: 100%;
+    /* Full width on smaller screens */
+    margin: 0;
+    margin-bottom: 20px;
+    /* Space between stacked elements */
+  }
+}
