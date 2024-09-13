@@ -27,19 +27,19 @@ function Header() {
               <Link to="/">Home</Link>
             </li>
             <li className={isActive('/products/doorbells') ? 'active' : ''}>
-              <Link to="/products/doorbells">Smart Doorbell</Link>
+              <Link to="/">Smart Doorbell</Link>
             </li>
             <li className={isActive('/products/doorlocks') ? 'active' : ''}>
-              <Link to="/products/doorlocks">Smart Doorlock</Link>
+              <Link to="/">Smart Doorlock</Link>
             </li>
             <li className={isActive('/products/lighting') ? 'active' : ''}>
-              <Link to="/products/lighting">Smart Lighting</Link>
+              <Link to="/">Smart Lighting</Link>
             </li>
             <li className={isActive('/products/speakers') ? 'active' : ''}>
-              <Link to="/products/speakers">Smart Speaker</Link>
+              <Link to="/">Smart Speaker</Link>
             </li>
             <li className={isActive('/products/thermostats') ? 'active' : ''}>
-              <Link to="/products/thermostats">Smart Thermostat</Link>
+              <Link to="/">Smart Thermostat</Link>
             </li>
             {/* Login Dropdown */}
             <li className="nav-item login-item" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
@@ -50,10 +50,10 @@ function Header() {
                     <Link to="/CustomerLogin">Customer</Link>
                   </li>
                   <li>
-                    <Link to="/store-manager-login">Store Manager</Link>
+                    <Link to="/storemanager/login">Store Manager</Link>
                   </li>
                   <li>
-                    <Link to="/salesman-login">Salesman</Link>
+                    <Link to="/salesman/login">Salesman</Link>
                   </li>
                 </ul>
               )}

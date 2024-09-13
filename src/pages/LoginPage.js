@@ -1,40 +1,62 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import Header from '../components/Header'; // Import Header component
+import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 
 function LoginPage() {
   const [isLogin, setIsLogin] = useState(true); // Toggle between login and signup
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Initialize the navigate hook
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  // Fetch customers from localStorage or initialize an empty array if none exist
+  const getCustomers = () => JSON.parse(localStorage.getItem('customers')) || [];
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const customers = getCustomers();
+
     if (isLogin) {
-      console.log('Email:', email);
-      console.log('Password:', password);
-      navigate('/CustomerLandingPage'); // Redirect to the homepage
+      // Perform login validation
+      const customer = customers.find(
+        (cust) => cust.email === email && cust.password === password
+      );
+      if (customer) {
+        console.log('Customer logged in:', customer);
+        localStorage.setItem('loggedInCustomer', JSON.stringify(customer));
+        navigate('/CustomerLandingPage'); // Redirect to the Customer Landing Page
+      } else {
+        setError('Invalid email or password');
+      }
     } else {
-      console.log('Signing up with', email);
-      navigate('/'); // Redirect to the homepage after signup
+      // Handle signup
+      if (customers.some((cust) => cust.email === email)) {
+        setError('Email already exists');
+      } else {
+        const newCustomer = { email, password, orders: [] };
+        customers.push(newCustomer);
+        localStorage.setItem('customers', JSON.stringify(customers));
+        console.log('New customer signed up:', newCustomer);
+        navigate('/customer/signup'); // Redirect to Signup Page
+      }
     }
   };
 
   const handleToggle = () => {
+    // Toggle between login and signup mode
     setIsLogin(!isLogin);
-    if (!isLogin) {
-      navigate('/signup');
-    }
+    setError('');
   };
 
   return (
     <>
-      <Header /> {/* Use Header component */}
+      <Header />
       <div className="login-page">
         <div className="login-box">
           <section id="content">
-            <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
+            <h2>{isLogin ? 'Customer Login' : 'Customer Sign Up'}</h2>
             <form onSubmit={handleSubmit}>
+              {error && <p className="error-message">{error}</p>}
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
                 <input

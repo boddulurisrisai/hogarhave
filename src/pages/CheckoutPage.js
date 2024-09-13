@@ -19,7 +19,12 @@ function CheckoutPage() {
   const [confirmationNumber, setConfirmationNumber] = useState('');
   const [pickupDate, setPickupDate] = useState('');
   const [orderDate, setOrderDate] = useState('');
-  const [orderTotals, setOrderTotals] = useState({});
+  const [orderTotals, setOrderTotals] = useState({
+    totalAmount: 0,
+    shippingCost: 0,
+    tax: 0,
+    totalWithShippingAndTax: 0,
+  });
   const navigate = useNavigate();
 
   const storeLocations = [
@@ -44,7 +49,7 @@ function CheckoutPage() {
     e.preventDefault();
 
     // Calculate totals
-    const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalAmount = cart.reduce((total, item) => total + (Number(item.price) * item.quantity), 0);
     const shippingCost = 10;
     const tax = totalAmount * 0.08;
     const totalWithShippingAndTax = totalAmount + shippingCost + tax;
@@ -64,9 +69,17 @@ function CheckoutPage() {
       confirmationNumber: newConfirmationNumber,
       orderDate: orderDate.toISOString(),
       deliveryDate: deliveryDate.toISOString(),
-      cart: cart, // Include all cart items with image URLs
+      cart: cart.map(item => ({
+        ...item,
+        price: Number(item.price), // Ensure price is a number
+      })), // Include all cart items with image URLs
       totalCost: totalWithShippingAndTax,
     };
+
+    // Save order details to localStorage
+    const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    const updatedOrders = [...existingOrders, orderDetails];
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
 
     // Call checkout function and pass order details
     checkout(customerData, orderDetails);
@@ -75,7 +88,7 @@ function CheckoutPage() {
       totalAmount,
       shippingCost,
       tax,
-      totalWithShippingAndTax
+      totalWithShippingAndTax,
     });
 
     setOrderPlaced(true);
@@ -94,9 +107,9 @@ function CheckoutPage() {
           {orderPlaced ? (
             <div className="order-confirmation">
               <h3>Your order has been placed successfully!</h3>
-              <p>Confirmation Number: {confirmationNumber}</p>
-              <p>Order Date: {orderDate}</p>
-              <p>Pickup/Delivery Date: {pickupDate}</p>
+              <p><strong>Confirmation Number:</strong> {confirmationNumber}</p>
+              <p><strong>Order Date:</strong> {orderDate}</p>
+              <p><strong>Pickup/Delivery Date:</strong> {pickupDate}</p>
               <p>You will be redirected to the orders page shortly.</p>
             </div>
           ) : (
@@ -201,14 +214,14 @@ function CheckoutPage() {
           <ul>
             {cart.map(item => (
               <li key={item.id}>
-                {item.name} - {item.quantity} x ${item.price.toFixed(2)}
+                {item.name} - {item.quantity} x ${Number(item.price).toFixed(2)}
               </li>
             ))}
           </ul>
-          <p>Subtotal: ${orderTotals.totalAmount ? orderTotals.totalAmount.toFixed(2) : '0.00'}</p>
-          <p>Shipping: ${orderTotals.shippingCost ? orderTotals.shippingCost.toFixed(2) : '0.00'}</p>
-          <p>Tax: ${orderTotals.tax ? orderTotals.tax.toFixed(2) : '0.00'}</p>
-          <h3>Total: ${orderTotals.totalWithShippingAndTax ? orderTotals.totalWithShippingAndTax.toFixed(2) : '0.00'}</h3>
+          <p><strong>Subtotal:</strong> ${orderTotals.totalAmount.toFixed(2)}</p>
+          <p><strong>Shipping:</strong> ${orderTotals.shippingCost.toFixed(2)}</p>
+          <p><strong>Tax:</strong> ${orderTotals.tax.toFixed(2)}</p>
+          <h3><strong>Total:</strong> ${orderTotals.totalWithShippingAndTax.toFixed(2)}</h3>
         </div>
       </div>
     </div>

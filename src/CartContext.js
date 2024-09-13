@@ -1,4 +1,3 @@
-// src/CartContext.js
 import React, { createContext, useState, useContext } from 'react';
 
 const CartContext = createContext();
@@ -23,27 +22,27 @@ export function CartProvider({ children }) {
   ];
 
   // Function to add an item to the cart
-  const addToCart = (product) => {
+  const addToCart = (product, quantity = 1) => {
     const existingItem = cart.find(item => item.id === product.id);
     if (existingItem) {
       setCart(prevCart =>
         prevCart.map(item =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
         )
       );
     } else {
-      setCart(prevCart => [...prevCart, { ...product, quantity: 1 }]);
+      setCart(prevCart => [...prevCart, { ...product, quantity }]);
     }
   };
 
   // Function to remove an item from the cart
   const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter(item => item.id !== productId));
+    setCart(prevCart => prevCart.filter(item => item.id !== productId));
   };
 
   // Function to update item quantity in the cart
   const updateItemQuantity = (productId, quantity) => {
-    setCart((prevCart) =>
+    setCart(prevCart =>
       prevCart.map(item =>
         item.id === productId ? { ...item, quantity: Math.max(quantity, 1) } : item
       )
@@ -61,7 +60,7 @@ export function CartProvider({ children }) {
     };
 
     // Add the new order to the orders list
-    setOrders((prevOrders) => [...prevOrders, order]);
+    setOrders(prevOrders => [...prevOrders, order]);
 
     // Clear cart after successful checkout
     setCart([]);
@@ -69,7 +68,7 @@ export function CartProvider({ children }) {
 
   // Function to cancel an order
   const cancelOrder = (orderId) => {
-    setOrders((prevOrders) => prevOrders.filter(order => order.id !== orderId));
+    setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
   };
 
   return (
@@ -80,10 +79,10 @@ export function CartProvider({ children }) {
       storeLocations,
       addToCart,
       removeFromCart,
-      updateItemQuantity, // Added updateItemQuantity to context value
+      updateItemQuantity,
       checkout,
-      cancelOrder, // Make sure this is included
-      setCustomerInfo, // To update customer information
+      cancelOrder,
+      setCustomerInfo,
     }}>
       {children}
     </CartContext.Provider>

@@ -12,11 +12,11 @@ function App() {
         <aside className="sidebar">
           <h3>Categories</h3>
           <ul>
-            <li><a href="/smart-doorbell">Smart Doorbells</a></li>
-            <li><a href="/smart-doorlock">Smart Doorlocks</a></li>
-            <li><a href="/smart-speaker">Smart Speakers</a></li>
-            <li><a href="/smart-lighting">Smart Lighting</a></li>
-            <li><a href="/smart-thermostat">Smart Thermostats</a></li>
+            <li><a href="/">Smart Doorbells</a></li>
+            <li><a href="/">Smart Doorlocks</a></li>
+            <li><a href="/">Smart Speakers</a></li>
+            <li><a href="/">Smart Lighting</a></li>
+            <li><a href="/">Smart Thermostats</a></li>
           </ul>
         </aside>
 

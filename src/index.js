@@ -12,36 +12,48 @@ import SmartSpeaker from './pages/SmartSpeaker';
 import SmartThermostat from './pages/SmartThermostat';
 import CartPage from './pages/CartPage';
 import { CartProvider } from './CartContext'; // Import CartProvider
+import { ProductProvider } from './ProductContext'; // Import ProductProvider
 import reportWebVitals from './reportWebVitals';
 import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
+import CustomerSignupPage from './pages/CustomerSignupPage';
+import StoreManagerLoginPage from './pages/StoreManagerLoginPage';
+import StoreManagerDashboard from './pages/StoreManagerDashboard';
+import SalesmanLoginPage from './pages/SalesmanLoginPage';
+import SalesmanDashboard from './pages/SalesmanDashboard';
+import SalesmanOrdersPage from './pages/SalesmanOrdersPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <CartProvider> {/* Wrap the application with CartProvider */}
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/CustomerLogin" element={<LoginPage />} />
-          <Route path="/Cart" element={<CartPage />} />
-          <Route path="/CustomerLandingPage" element={<CustomerLandingPage />} />
-          <Route path="/products/doorlocks" element={<SmartDoorlock />} />
-          <Route path="/products/doorbells" element={<SmartDoorbell />} />
-          <Route path="/products/lighting" element={<SmartLighting />} />
-          <Route path="/products/speakers" element={<SmartSpeaker />} />
-          <Route path="/products/thermostats" element={<SmartThermostat />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
+      {/* Wrap the application with ProductProvider and CartProvider */}
+      <ProductProvider> 
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/CustomerLogin" element={<LoginPage />} />
+            <Route path="/Cart" element={<CartPage />} />
+            <Route path="/CustomerLandingPage" element={<CustomerLandingPage />} />
+            <Route path="/products/doorlocks" element={<SmartDoorlock />} />
+            <Route path="/products/doorbells" element={<SmartDoorbell />} />
+            <Route path="/products/lighting" element={<SmartLighting />} />
+            <Route path="/products/speakers" element={<SmartSpeaker />} />
+            <Route path="/products/thermostats" element={<SmartThermostat />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/customer/signup" element={<CustomerSignupPage />} />
+            <Route path="/storemanager/login" element={<StoreManagerLoginPage />} />
+            <Route path="/store-manager/dashboard" element={<StoreManagerDashboard />} />
+            <Route path="/salesman/login" element={<SalesmanLoginPage />} />
+            <Route path="/salesman/dashboard" element={<SalesmanDashboard />} />
+            <Route path="/salesman/orders" element={<SalesmanOrdersPage />} />
 
-
-        </Routes>
-      </CartProvider>
+          </Routes>
+        </CartProvider>
+      </ProductProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

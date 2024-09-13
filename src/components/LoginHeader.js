@@ -1,35 +1,48 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../CartContext';
 import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
+import '../pages/OrdersPage';
 
 function LoginHeader() {
-  const { cart, orders, cancelOrder } = useCart();
+  const { cart, orders } = useCart(); // Make sure `orders` is available from context
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const navigate = useNavigate();
   const location = useLocation();
 
   const cartItemCount = cart.length;
 
+  // Toggle dropdown on click
   const toggleDropdown = () => {
+    console.log("Toggling dropdown:", !showDropdown);
     setShowDropdown((prev) => !prev);
   };
 
-  const handleOrderSelect = (order) => {
-    setSelectedOrder(order);
+  // Handle navigation to OrdersPage
+  const handleNavigateToOrders = () => {
     setShowDropdown(false);
+    navigate('/orders', { state: { orderDetails: orders[0] } }); // Pass the first order details
   };
 
+  // Handle logout
+  const handleLogout = () => {
+    // Clear user session or authentication token here if needed
+    // For example, remove user data from localStorage or context
+    // localStorage.removeItem('userToken');
+
+    // Redirect to login page
+    navigate('/CustomerLogin');
+  };
+
+  // Check if the current path matches the given path
   const isActive = (path) => location.pathname === path;
 
   return (
     <header className="header">
-      {/* Centered Smart Homes heading */}
       <div className="logo-container">
         <h1 className="logo">Smart Homes</h1>
       </div>
-      
-      {/* Navigation and Icons */}
+
       <nav className="header-content">
         <ul className="nav-menu">
           <li className={isActive('/') ? 'active' : ''}>
@@ -51,7 +64,6 @@ function LoginHeader() {
             <Link to="/products/thermostats">Smart Thermostat</Link>
           </li>
 
-          {/* Cart Icon */}
           <li className="cart-icon">
             <Link to="/cart">
               <FaShoppingCart />
@@ -62,35 +74,20 @@ function LoginHeader() {
           </li>
 
           {/* Account Dropdown */}
-          <li className="account-menu">
-            <span onClick={toggleDropdown} className="account-icon">
+          <li
+            className="account-menu"
+            onClick={toggleDropdown}
+            onMouseEnter={() => setShowDropdown(true)}
+            onMouseLeave={() => setShowDropdown(false)}
+          >
+            <span className="account-icon">
               <FaUserCircle />
             </span>
             {showDropdown && (
               <div className="dropdown-menu">
                 <Link to="/account">Account Information</Link>
-                <h3>Past Orders</h3>
-                <ul>
-                  {orders.map((order) => (
-                    <li key={order.id}>
-                      <button onClick={() => handleOrderSelect(order)}>
-                        Order #{order.confirmationNumber}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-                {selectedOrder && (
-                  <div className="order-details">
-                    <h4>Order Details</h4>
-                    <p>Confirmation Number: {selectedOrder.confirmationNumber}</p>
-                    <p>
-                      Delivery Date: {new Date(selectedOrder.deliveryDate).toDateString()}
-                    </p>
-                    <button onClick={() => cancelOrder(selectedOrder.id)}>
-                      Cancel Order
-                    </button>
-                  </div>
-                )}
+                <button onClick={handleNavigateToOrders}>Past Orders</button>
+                <button onClick={handleLogout}>Logout</button>
               </div>
             )}
           </li>
