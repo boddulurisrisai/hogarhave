@@ -49,6 +49,11 @@ export function CartProvider({ children }) {
     );
   };
 
+  // Function to clear the cart
+  const clearCart = () => {
+    setCart([]);
+  };
+
   // Function to handle checkout
   const checkout = (customerData) => {
     const order = {
@@ -60,15 +65,20 @@ export function CartProvider({ children }) {
     };
 
     // Add the new order to the orders list
-    setOrders(prevOrders => [...prevOrders, order]);
+    const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    storedOrders.push(order);
+    localStorage.setItem('orders', JSON.stringify(storedOrders));
 
     // Clear cart after successful checkout
-    setCart([]);
+    clearCart();
   };
 
   // Function to cancel an order
   const cancelOrder = (orderId) => {
-    setOrders(prevOrders => prevOrders.filter(order => order.id !== orderId));
+    const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    const updatedOrders = storedOrders.filter(order => order.id !== orderId);
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+    setOrders(updatedOrders);
   };
 
   return (
@@ -80,6 +90,7 @@ export function CartProvider({ children }) {
       addToCart,
       removeFromCart,
       updateItemQuantity,
+      clearCart,
       checkout,
       cancelOrder,
       setCustomerInfo,

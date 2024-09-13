@@ -10,21 +10,29 @@ function OrdersPage() {
   useEffect(() => {
     // Fetch orders from localStorage
     const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
-    console.log('Stored Orders:', storedOrders); // Debugging line
-    setOrders(storedOrders);
+    // Sort orders by orderDate in ascending order (older first)
+    const sortedOrders = storedOrders.sort((a, b) => new Date(a.orderDate) - new Date(b.orderDate));
+    console.log('Sorted Orders:', sortedOrders); // Debugging line
+    setOrders(sortedOrders);
   }, []);
 
   const handleCancelOrder = (confirmationNumber) => {
-    // Filter out the canceled order
-    const updatedOrders = orders.filter(order => order.confirmationNumber !== confirmationNumber);
-    localStorage.setItem('orders', JSON.stringify(updatedOrders));
-    setOrders(updatedOrders);
-    alert('Order has been canceled');
-    navigate('/');
+    // Confirm before canceling
+    if (window.confirm('Are you sure you want to cancel this order?')) {
+      // Filter out the canceled order
+      const updatedOrders = orders.filter(order => order.confirmationNumber !== confirmationNumber);
+      // Update localStorage
+      localStorage.setItem('orders', JSON.stringify(updatedOrders));
+      // Update state
+      setOrders(updatedOrders);
+      // Notify the user
+      alert('Order has been canceled');
+      // Redirect to homepage
+      navigate('/');
+    }
   };
 
   const handleOrderClick = (order) => {
-    console.log('Selected Order:', order); // Debugging line
     setSelectedOrder(order);
   };
 
@@ -33,26 +41,13 @@ function OrdersPage() {
       <Header />
       <div className="orders-container">
         <h2>Your Past Orders</h2>
-        {orders.length > 0 ? (
-          <ul className="orders-list">
-            {orders.map(order => (
-              <li key={order.confirmationNumber} onClick={() => handleOrderClick(order)}>
-                <h3>Order {order.confirmationNumber}</h3>
-                <p>Order Date: {order.orderDate ? new Date(order.orderDate).toLocaleDateString() : 'N/A'}</p>
-                <p>Delivery Date: {order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString() : 'N/A'}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No orders found.</p>
-        )}
 
+        {/* Display the selected order details at the top */}
         {selectedOrder && (
-          <div className="order-details">
+          <div className="order-details" style={{ marginBottom: '20px' }}>
             <h2>Order Details</h2>
             <p><strong>Confirmation Number:</strong> {selectedOrder.confirmationNumber || 'N/A'}</p>
-            <p><strong>Order Date:</strong> {selectedOrder.orderDate ? new Date(selectedOrder.orderDate).toLocaleDateString() : 'N/A'}</p>
-            <p><strong>Delivery Date:</strong> {selectedOrder.deliveryDate ? new Date(selectedOrder.deliveryDate).toLocaleDateString() : 'N/A'}</p>
+            <p><strong>Total Cost:</strong> ${Number(selectedOrder.totalCost).toFixed(2) || '0.00'}</p>
 
             <div className="order-summary">
               <h3>Order Summary</h3>
@@ -63,16 +58,37 @@ function OrdersPage() {
                       <img 
                         src={item.image || 'default-image-url'} 
                         alt={item.name || 'Item'} 
-                        style={{ width: '50px', height: '50px', marginRight: '10px' }} 
+                        style={{ width: '100px', height: '100px', marginRight: '10px' }} 
                       />
                       <span>{item.name || 'Unnamed Item'} - {item.quantity || 0} x ${item.price ? Number(item.price).toFixed(2) : '0.00'}</span>
+                      {item.accessories && item.accessories.length > 0 && (
+                        <div>
+                          <h4>Accessories:</h4>
+                          <ul>
+                            {item.accessories.map(acc => (
+                              <li key={acc.id}>
+                                <img 
+                                  src={acc.image || 'default-image-url'} 
+                                  alt={acc.name || 'Accessory'} 
+                                  style={{ width: '50px', height: '50px', marginRight: '10px' }} 
+                                />
+                                <span>{acc.name || 'Unnamed Accessory'} - ${acc.price ? Number(acc.price).toFixed(2) : '0.00'}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {item.warranty > 0 && (
+                        <div>
+                          <span>Warranty Cost: ${item.warranty.toFixed(2)}</span>
+                        </div>
+                      )}
                     </li>
                   ))
                 ) : (
                   <p>No items in the cart.</p>
                 )}
               </ul>
-              <h3><strong>Total:</strong> ${Number(selectedOrder.totalCost).toFixed(2) || '0.00'}</h3>
             </div>
 
             {/* Cancel Order Option */}
@@ -90,6 +106,38 @@ function OrdersPage() {
               );
             })()}
           </div>
+        )}
+
+        {/* Display all orders */}
+        {orders.length > 0 ? (
+          <ul className="orders-list">
+            {orders.map(order => (
+              <li key={order.confirmationNumber} onClick={() => handleOrderClick(order)}>
+                <h3>Order {order.confirmationNumber}</h3>
+                <p>Order Date: {order.orderDate ? new Date(order.orderDate).toLocaleDateString() : 'N/A'}</p>
+                <p>Delivery Date: {order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString() : 'N/A'}</p>
+                <p>Delivery Type: {order.deliveryType === 'home' ? 'Home Delivery' : 'Store Pickup'}</p>
+                <p>Total Cost: ${order.totalCost ? Number(order.totalCost).toFixed(2) : '0.00'}</p>
+                <div>
+                  {order.cart && order.cart.length > 0 ? (
+                    order.cart.map(item => (
+                      <div key={item.id}>
+                        <img 
+                          src={item.image || 'default-image-url'} 
+                          alt={`Order ${order.confirmationNumber} - ${item.name}`} 
+                          style={{ width: '100px', height: 'auto', marginRight: '10px' }} 
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No items in the cart.</p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No orders found.</p>
         )}
       </div>
     </div>

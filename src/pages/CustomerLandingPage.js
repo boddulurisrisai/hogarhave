@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import Header from '../components/LoginHeader'; // Import Header component
 import Footer from '../components/Footer'; // Import Footer component
- // Import CSS file
+import { useCart } from '../CartContext'; // Import useCart hook
+import { useNavigate } from 'react-router-dom';
 
 function CustomerLandingPage() {
+  const navigate = useNavigate(); // Initialize the navigate function
+  const { cart, addToCart } = useCart(); // Use cart and addToCart from CartContext
   const [selectedProduct, setSelectedProduct] = useState('');
   const [deliveryOption, setDeliveryOption] = useState('home');
   const [orderStatus, setOrderStatus] = useState(null);
@@ -50,7 +53,12 @@ function CustomerLandingPage() {
   const handleOrder = () => {
     console.log('Product:', selectedProduct);
     console.log('Delivery Option:', deliveryOption);
-    setOrderStatus('Your order has been placed successfully.');
+    navigate('/cart');    // Navigate to cart page (assuming you use React Router for navigation)
+    // history.push('/cart');
+  };
+
+  const handleAddToCart = (product) => {
+    addToCart(product); // Add product to cart
   };
 
   return (
@@ -69,7 +77,7 @@ function CustomerLandingPage() {
                   <img src={product.image} alt={product.name} />
                   <h4>{product.name}</h4>
                   <p>Price: ${product.price}</p>
-                  <button onClick={() => setSelectedProduct(product.name)}>Add to Cart</button>
+                  <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
                 </div>
               ))}
             </div>

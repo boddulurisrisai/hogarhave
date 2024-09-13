@@ -412,7 +412,7 @@ footer .footer-bottom p a {
 
 button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #cc0000;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -420,7 +420,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #cc0000;
 }
 
 .delivery-options,
@@ -556,12 +556,12 @@ nav .login-item:hover .dropdown-menu {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #cc0000;
   color: #fff;
 }
 
 .button-container button:hover {
-  background-color: #0056b3;
+  background-color: #cc0000;
 }
 
 .quantity-controls {
@@ -1563,4 +1563,41 @@ h3 {
 
 .submit-button:hover {
   background-color: #c81d00;
+}
+
+/* Account Information Page */
+/* AccountInformationPage.css */
+.account-info-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.account-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-icon img {
+  border: 2px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.info {
+  flex: 1;
+}
+
+.info p {
+  margin: 5px 0;
+}
+
+.info ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.info li {
+  margin: 5px 0;
 }

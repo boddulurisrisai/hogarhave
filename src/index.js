@@ -22,6 +22,7 @@ import StoreManagerDashboard from './pages/StoreManagerDashboard';
 import SalesmanLoginPage from './pages/SalesmanLoginPage';
 import SalesmanDashboard from './pages/SalesmanDashboard';
 import SalesmanOrdersPage from './pages/SalesmanOrdersPage';
+import AccountInformationPage from './pages/AccountInformationPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -48,6 +49,7 @@ root.render(
             <Route path="/salesman/login" element={<SalesmanLoginPage />} />
             <Route path="/salesman/dashboard" element={<SalesmanDashboard />} />
             <Route path="/salesman/orders" element={<SalesmanOrdersPage />} />
+            <Route path="/account" element={<AccountInformationPage />} />
 
           </Routes>
         </CartProvider>

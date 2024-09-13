@@ -46,7 +46,7 @@ function LoginHeader() {
       <nav className="header-content">
         <ul className="nav-menu">
           <li className={isActive('/') ? 'active' : ''}>
-            <Link to="/">Home</Link>
+            <Link to="/CustomerLandingPage">Home</Link>
           </li>
           <li className={isActive('/products/doorbells') ? 'active' : ''}>
             <Link to="/products/doorbells">Smart Doorbell</Link>

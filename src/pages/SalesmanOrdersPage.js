@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/SalesmanHeader'; // Assuming you have a Header component
+import Header from '../components/SalesmanHeader';
 
 function SalesmanOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -26,6 +26,23 @@ function SalesmanOrdersPage() {
       }
     }
   }, [editOrderId, orders]);
+
+  // Calculate total cost based on cart items
+  const calculateTotalCost = () => {
+    const total = editedCartItems.reduce((acc, item) => {
+      const itemTotal = (item.price || 0) * (item.quantity || 0);
+      return acc + itemTotal;
+    }, 0);
+    return total;
+  };
+
+  // Update total cost whenever cart items change
+  useEffect(() => {
+    setOrderUpdates(prevUpdates => ({
+      ...prevUpdates,
+      totalCost: calculateTotalCost()
+    }));
+  }, [editedCartItems]);
 
   // Handle input changes for order updates
   const handleInputChange = (e) => {
@@ -94,7 +111,7 @@ function SalesmanOrdersPage() {
                     name="totalCost"
                     placeholder="Total Cost"
                     value={orderUpdates.totalCost}
-                    onChange={handleInputChange}
+                    readOnly
                   />
                   <div>
                     <strong>Items:</strong>
