@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+HogarHaven E-commerce Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to HogarHaven, an online retailer application developed using React. This application allows customers to browse smart home products, create accounts, place orders, and track them, while also offering specific roles and functionality for store managers and salesmen.
 
-## Available Scripts
+Project Overview
+This project aims to create a seamless shopping experience for SmartHomes customers, where they can place orders, manage accounts, and track order status, while managers and salesmen handle the backend operations.
 
-In the project directory, you can run:
+Folder Structure
+public/images: Contains all images used across the application.
+components: Includes reusable UI components like header, footer, etc., used across multiple pages.
+pages: Contains the main page components for the different sections of the application (Login, Dashboard, Product Selection, etc.).
+How to Run the Application
+To start and run the application locally:
 
-### `npm start`
+Clone the repository to your local machine.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Install dependencies using:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+bash
+Copy code
+npm install
+Run the application:
 
-### `npm test`
+bash
+Copy code
+npm start
+The application will be hosted at http://localhost:3000.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Features and Functionalities
+Customer Features
 
-### `npm run build`
+Login/Signup:
+New customers must sign up using their email and other credentials.
+Registered users can log in to access their customer dashboard.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Customer Dashboard:
+Displays product categories (Smart Doorbells, Smart Doorlocks, Smart Speakers, etc.).
+A cart icon is available for quick access to the shopping cart.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Product Selection:
+Customers can browse through products by category.
+Clicking on a product image will take the user to a detailed product page that includes associated accessories.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Shopping Cart:
+Customers can add items to their cart, with the number of items reflected on the cart icon in the header.
+Proceed to checkout from the cart to finalize the order.
 
-### `npm run eject`
+Checkout Process:
+Customers can see item warranties, discounts, and total costs during checkout.
+Customers need to enter their personal information, choose a delivery option (Store Pickup or Home Delivery), and pay using a credit card.
+For store pickup, the customer must select a pickup location from a dropdown list.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Order History:
+After placing an order, customers can view their past orders in the 'Account' section.
+Each order entry shows the confirmation number, order details, and an option to cancel the order if the delivery is more than 5 days away.
+Store Manager Features
+Login: Managers can log in using their credentials.
+Product Management: Store managers can add, edit, or delete products from the product inventory.
+Salesman Features
+Login: Salesmen can log in to access their dashboard.
+Customer Management: Salesmen can add new customers to the system by entering customer details.
+Order Management: Salesmen can edit, delete, or update the status of orders.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Technologies Used
+React: Frontend library for building the UI.
+CSS: For styling the application.
+JavaScript (ES6): Core language for building interactivity.
