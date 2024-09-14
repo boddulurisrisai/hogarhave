@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../CartContext';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/LoginHeader';
 
 function CheckoutPage() {
   const { cart, clearCart, storeLocations } = useCart(); // Access cart, clearCart, and storeLocations from useCart hook
@@ -120,6 +121,8 @@ function CheckoutPage() {
   };
 
   return (
+    <>
+    <Header />
     <div className="checkout-page">
       <h2>Checkout</h2>
       <div className="checkout-container">
@@ -258,6 +261,7 @@ function CheckoutPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
