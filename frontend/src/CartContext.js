@@ -1,33 +1,28 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useContext } from 'react';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('orders')) || []);
+  const [orders, setOrders] = useState([]);
   const [customerInfo, setCustomerInfo] = useState({});
-  const [storeLocations, setStoreLocations] = useState([]);
 
-  // Fetch store locations from the API
-  useEffect(() => {
-    const fetchStoreLocations = async () => {
-      try {
-        const response = await axios.get('http://localhost:3030/api/stores');
-        setStoreLocations(response.data);
-      } catch (error) {
-        console.error('Error fetching store locations:', error);
-      }
-    };
-
-    fetchStoreLocations();
-  }, []);
+  // Hardcoded 10 store locations for in-store pickup
+  const storeLocations = [
+    { id: 1, name: 'SmartHomes Store - Downtown', zipCode: '12345' },
+    { id: 2, name: 'SmartHomes Store - Westside', zipCode: '23456' },
+    { id: 3, name: 'SmartHomes Store - Uptown', zipCode: '34567' },
+    { id: 4, name: 'SmartHomes Store - Eastside', zipCode: '45678' },
+    { id: 5, name: 'SmartHomes Store - Northpoint', zipCode: '56789' },
+    { id: 6, name: 'SmartHomes Store - Riverdale', zipCode: '67890' },
+    { id: 7, name: 'SmartHomes Store - Hilltop', zipCode: '78901' },
+    { id: 8, name: 'SmartHomes Store - Valley', zipCode: '89012' },
+    { id: 9, name: 'SmartHomes Store - Lakeside', zipCode: '90123' },
+    { id: 10, name: 'SmartHomes Store - Bayshore', zipCode: '01234' },
+  ];
 
   // Function to add an item to the cart
   const addToCart = (product, quantity = 1) => {
-    console.log("Adding product to cart:", product); // Log product details
-    console.log("Image URL:", product.image);        // Log the image URL to check correctness
-
     const existingItem = cart.find(item => item.id === product.id);
     if (existingItem) {
       setCart(prevCart =>
@@ -60,33 +55,28 @@ export function CartProvider({ children }) {
   };
 
   // Function to handle checkout
-  const checkout = async (customerData) => {
-    const totalAmount = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const checkout = (customerData) => {
     const order = {
-      id: new Date().getTime(),
+      id: new Date().getTime(), // Unique order ID
       items: cart,
-      totalAmount,
-      ...customerData,
-      confirmationNumber: Math.floor(Math.random() * 1000000),
-      deliveryDate: new Date(new Date().setDate(new Date().getDate() + 14)),
+      ...customerData, // Include customer info like name, address, delivery type, etc.
+      confirmationNumber: Math.floor(Math.random() * 1000000), // Random confirmation number
+      deliveryDate: new Date(new Date().setDate(new Date().getDate() + 14)), // 2 weeks later
     };
 
-    try {
-      // Save order to database
-      await axios.post('http://localhost:3030/api/orders', order);
-      // Update local state
-      const updatedOrders = [...orders, order];
-      localStorage.setItem('orders', JSON.stringify(updatedOrders));
-      setOrders(updatedOrders);
-      clearCart();
-    } catch (error) {
-      console.error('Error saving order:', error);
-    }
+    // Add the new order to the orders list
+    const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    storedOrders.push(order);
+    localStorage.setItem('orders', JSON.stringify(storedOrders));
+
+    // Clear cart after successful checkout
+    clearCart();
   };
 
   // Function to cancel an order
   const cancelOrder = (orderId) => {
-    const updatedOrders = orders.filter(order => order.id !== orderId);
+    const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    const updatedOrders = storedOrders.filter(order => order.id !== orderId);
     localStorage.setItem('orders', JSON.stringify(updatedOrders));
     setOrders(updatedOrders);
   };
@@ -110,7 +100,6 @@ export function CartProvider({ children }) {
   );
 }
 
-// Custom hook to use the CartContext
 export function useCart() {
   const context = useContext(CartContext);
   if (context === undefined) {

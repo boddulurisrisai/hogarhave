@@ -63,6 +63,9 @@ function LoginHeader() {
           <li className={isActive('/products/thermostats') ? 'active' : ''}>
             <Link to="/products/thermostats">Smart Thermostat</Link>
           </li>
+          <li className={isActive('/trending') ? 'active' : ''}>
+            <Link to="/trending">Trending</Link>
+          </li>
 
           <li className="cart-icon">
             <Link to="/cart">

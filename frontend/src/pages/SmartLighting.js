@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../CartContext'; // Import useCart hook
 import Header from '../components/LoginHeader'; // Import Header component
 import { useProduct } from '../ProductContext'; // Import ProductContext
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // Hardcoded accessories data for smart lighting
 const lightingAccessoriesData = {
@@ -39,7 +41,10 @@ function SmartLighting() {
   const [quantity, setQuantity] = useState(1);
   const [accessories, setAccessories] = useState([]);
   const [selectedAccessories, setSelectedAccessories] = useState({});
-  
+  const [reviews, setReviews] = useState([]);
+  const [showReviews, setShowReviews] = useState(false);
+  const navigate = useNavigate();
+
   // Filter products by category
   const lightings = products ? products.filter(product => product.category === 'Smart Lightings') : [];
 
@@ -73,12 +78,45 @@ function SmartLighting() {
 
   const handleAddToCart = (item) => {
     if (item) {
-      addToCart(item);
+      addToCart({ ...item, quantity }); // Add item with selected quantity
     }
   };
 
   const handleRemoveFromCart = (itemId) => {
     removeFromCart(itemId);
+  };
+/*
+  const handleViewReviews = async () => {
+    if (!selectedLighting) {
+      console.log('No lighting selected.');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`/api/reviews?ProductModelName=${selectedLighting.name}`);
+      
+      if (response.data && response.data.reviews) {
+        setReviews(response.data.reviews);
+      } else {
+        setReviews([]);
+      }
+
+      setShowReviews(true); // Show the reviews section
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
+*/
+const handleViewReviews = () => {
+  if (selectedLighting) {
+    navigate('/view-reviews', { state: { productModelName: selectedLighting.name } });
+  } else {
+    console.log('No lighting selected.');
+  }
+};
+
+  const handleWriteReview = () => {
+    navigate('/write-review', { state: { lighting: selectedLighting } });
   };
 
   const handleAccessoryQuantityChange = (amount, accessory) => {
@@ -163,31 +201,49 @@ function SmartLighting() {
                 <div className="accessories-gallery">
                   {accessories.map((accessory) => (
                     <div key={accessory.id} className="accessory-item">
-                      <img src={accessory.image} alt={accessory.name} className="accessory-image"/>
-                      <h4>{accessory.name}</h4>
+                      <img src={accessory.image} alt={accessory.name} />
+                      <h5>{accessory.name}</h5>
                       <p>Price: ${accessory.price}</p>
                       <div className="button-container">
-                        {isInCart(accessory) ? (
-                          <div className="quantity-controls">
-                            <button onClick={() => handleAccessoryQuantityChange(-1, accessory)}>-</button>
-                            <input
-                              type="text"
-                              className="quantity"
-                              value={selectedAccessories[accessory.id] || 1}
-                              readOnly
-                            />
-                            <button onClick={() => handleAccessoryQuantityChange(1, accessory)}>+</button>
-                            <button onClick={() => handleRemoveFromCart(accessory.id)}>Remove from Cart</button>
-                          </div>
-                        ) : (
-                          <button onClick={() => handleAddToCart(accessory)}>Add to Cart</button>
-                        )}
+                        <div className="quantity-controls">
+                          <button onClick={() => handleAccessoryQuantityChange(-1, accessory)}>-</button>
+                          <input
+                            type="text"
+                            className="quantity"
+                            value={selectedAccessories[accessory.id] || 1}
+                            readOnly
+                          />
+                          <button onClick={() => handleAccessoryQuantityChange(1, accessory)}>+</button>
+                        </div>
+                        <button onClick={() => addToCart({ ...accessory, quantity: selectedAccessories[accessory.id] || 1 })}>
+                          Add to Cart
+                        </button>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p>No accessories available for this lighting.</p>
+                <p>No accessories available.</p>
+              )}
+            </div>
+
+            <div className="reviews">
+              <h4>Reviews</h4>
+              <button onClick={handleViewReviews}>View Reviews</button>
+              <button onClick={handleWriteReview}>Write a Review</button>
+              {showReviews && (
+                <div className="reviews-list">
+                  {reviews.length > 0 ? (
+                    reviews.map((review, index) => (
+                      <div key={index} className="review-item">
+                        <p>{review.comment}</p>
+                        <p>Rating: {review.rating}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No reviews available.</p>
+                  )}
+                </div>
               )}
             </div>
           </div>

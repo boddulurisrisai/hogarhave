@@ -38,3 +38,62 @@ exports.login = (req, res) => {
     });
   });
 };
+
+exports.storeManagerLogin = (req, res) => {
+  const { email, password } = req.body;
+  const query = 'SELECT * FROM storemanager WHERE email = ?';
+
+  connection.query(query, [email], (err, results) => {
+    if (err) return res.status(500).json({ error: 'An error occurred' });
+
+    if (results.length > 0) {
+      const user = results[0];
+
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) return res.status(500).json({ error: 'An error occurred while checking the password' });
+
+        if (isMatch) {
+          req.session.userId = user.id; // Assuming you're using sessions
+          logLoginAttempt(email, 'store-manager', true, user.id);
+          res.status(200).json({ message: 'Login successful', user });
+        } else {
+          logLoginAttempt(email, 'store-manager', false);
+          res.status(400).json({ error: 'Incorrect password' });
+        }
+      });
+    } else {
+      logLoginAttempt(email, 'store-manager', false);
+      res.status(400).json({ error: 'Email not found' });
+    }
+  });
+};
+
+// Salesman login
+exports.salesmanLogin = (req, res) => {
+  const { email, password } = req.body;
+  const query = 'SELECT * FROM salesman WHERE email = ?';
+
+  connection.query(query, [email], (err, results) => {
+    if (err) return res.status(500).json({ error: 'An error occurred' });
+
+    if (results.length > 0) {
+      const user = results[0];
+
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) return res.status(500).json({ error: 'An error occurred while checking the password' });
+
+        if (isMatch) {
+          req.session.userId = user.id; // Assuming you're using sessions
+          logLoginAttempt(email, 'salesman', true, user.id);
+          res.status(200).json({ message: 'Login successful', user });
+        } else {
+          logLoginAttempt(email, 'salesman', false);
+          res.status(400).json({ error: 'Incorrect password' });
+        }
+      });
+    } else {
+      logLoginAttempt(email, 'salesman', false);
+      res.status(400).json({ error: 'Email not found' });
+    }
+  });
+};

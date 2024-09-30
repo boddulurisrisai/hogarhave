@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 
+const correctCredentials = {
+  email: 'higherauthority@gmail.com',
+  password: 'manager123'
+};
 function StoreManagerLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

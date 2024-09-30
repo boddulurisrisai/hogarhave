@@ -25,6 +25,9 @@ import SalesmanOrdersPage from './pages/SalesmanOrdersPage';
 import AccountInformationPage from './pages/AccountInformationPage';
 import Cookies from 'js-cookie';
 import ProductPage from './pages/ProductPage';
+import ProductReviewForm from './pages/ProductReviewForm';
+import ViewReviews from './pages/ViewReviews';
+import TrendingPage from './pages/TrendingPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -53,7 +56,10 @@ root.render(
               <Route path="/salesman/orders" element={<SalesmanOrdersPage />} />
               <Route path="/account" element={<AccountInformationPage />} />
               <Route path="/product/:id" component={ProductPage} />
-            </Routes>
+              <Route path="/write-review" element={<ProductReviewForm />} />           
+              <Route path="/view-reviews" element={<ViewReviews />} />
+              <Route path="/trending" element={<TrendingPage />} />
+</Routes>
           </CartProvider>
         </ProductProvider>
     </BrowserRouter>

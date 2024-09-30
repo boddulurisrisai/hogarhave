@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useCart } from '../CartContext'; // Import useCart hook
-import Header from '../components/LoginHeader'; // Import Header component
-import { useProduct } from '../ProductContext'; // Import ProductContext
+import { useCart } from '../CartContext';
+import Header from '../components/LoginHeader';
+import { useProduct } from '../ProductContext';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-// Hardcoded accessories data
 const accessoriesData = {
   "August Smart Lock": [
     { id: '1', name: 'Level Connect', price: 60, image: '/images/doorlock/accessories/LevelConnect.jpg' },
@@ -29,7 +30,8 @@ const accessoriesData = {
     { id: '1', name: 'Level Connect', price: 60, image: '/images/doorlock/accessories/LevelConnect.jpg' },
     { id: '2', name: 'August Doorbell Camera', price: 150, image: '/images/doorlock/accessories/smart keypad.webp' },
     { id: '3', name: 'August Smart Lock Battery Pack', price: 40, image: '/images/doorlock/accessories/Yale module.webp' },
-  ],
+  ]
+  // More doorlocks and accessories...
 };
 
 function SmartDoorlock() {
@@ -38,62 +40,87 @@ function SmartDoorlock() {
   const [selectedDoorlock, setSelectedDoorlock] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [accessories, setAccessories] = useState([]);
-  const [selectedAccessories, setSelectedAccessories] = useState({});
-  
-  // Filter products by category
+  const [reviews, setReviews] = useState([]);
+  const [showReviews, setShowReviews] = useState(false);
+  const navigate = useNavigate();
+
   const doorlocks = products ? products.filter(product => product.category === 'Smart Doorlocks') : [];
 
   useEffect(() => {
     if (selectedDoorlock) {
       const accessoryData = accessoriesData[selectedDoorlock.name] || [];
       setAccessories(accessoryData);
-      // Initialize accessory quantities
-      const initialQuantities = accessoryData.reduce((acc, accessory) => {
-        acc[accessory.id] = 1;
-        return acc;
-      }, {});
-      setSelectedAccessories(initialQuantities);
+      setReviews([]);
+      setShowReviews(false);
     }
   }, [selectedDoorlock]);
 
   const handleImageClick = (doorlock) => {
     setSelectedDoorlock(doorlock);
-    setQuantity(1); // Reset quantity when selecting a new doorlock
+    setQuantity(1);
   };
 
   const handleQuantityChange = (amount, item) => {
-    if (item) {
-      const newQuantity = Math.max(1, quantity + amount); // Ensure quantity is at least 1
-      setQuantity(newQuantity);
-      updateItemQuantity(item.id, newQuantity);
-    }
+    const newQuantity = Math.max(1, quantity + amount);
+    setQuantity(newQuantity);
+    if (item) updateItemQuantity(item.id, newQuantity);
   };
 
   const isInCart = (item) => cart ? cart.some(cartItem => cartItem.id === item.id) : false;
 
   const handleAddToCart = (item) => {
-    if (item) {
+    try {
       addToCart(item);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
     }
   };
 
   const handleRemoveFromCart = (itemId) => {
-    removeFromCart(itemId);
-  };
-
-  const handleAccessoryQuantityChange = (amount, accessory) => {
-    if (accessory) {
-      const newQuantity = Math.max(1, (selectedAccessories[accessory.id] || 1) + amount);
-      setSelectedAccessories(prevQuantities => ({
-        ...prevQuantities,
-        [accessory.id]: newQuantity,
-      }));
+    try {
+      removeFromCart(itemId);
+    } catch (error) {
+      console.error('Error removing from cart:', error);
     }
+  };
+/*
+  const handleViewReviews = async () => {
+    if (!selectedDoorlock) {
+      console.log('No doorlock selected.');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`/api/reviews?ProductModelName=${selectedDoorlock.name}`);
+      
+      if (response.data && response.data.reviews) {
+        setReviews(response.data.reviews);
+      } else {
+        setReviews([]);
+      }
+
+      setShowReviews(true); // Show the reviews section
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  };
+*/
+
+const handleViewReviews = () => {
+  if (selectedDoorlock) {
+    navigate('/view-reviews', { state: { productModelName: selectedDoorlock.name } });
+  } else {
+    console.log('No doorlock selected.');
+  }
+};
+
+  const handleWriteReview = () => {
+    navigate('/write-review', { state: { doorlock: selectedDoorlock } });
   };
 
   return (
     <div className="smart-doorlock-page">
-      <Header /> {/* Include Header component */}
+      <Header />
       <main className="main-content">
         <h2>Smart Doorlocks</h2>
         <div className="product-gallery">
@@ -112,12 +139,7 @@ function SmartDoorlock() {
                   {isInCart(doorlock) ? (
                     <div className="quantity-controls">
                       <button onClick={() => handleQuantityChange(-1, doorlock)}>-</button>
-                      <input
-                        type="text"
-                        className="quantity"
-                        value={quantity}
-                        readOnly
-                      />
+                      <input type="text" className="quantity" value={quantity} readOnly />
                       <button onClick={() => handleQuantityChange(1, doorlock)}>+</button>
                       <button onClick={() => handleRemoveFromCart(doorlock.id)}>Remove from Cart</button>
                     </div>
@@ -132,23 +154,16 @@ function SmartDoorlock() {
           )}
         </div>
 
-        {/* Display selected doorlock details and accessories */}
         {selectedDoorlock && (
           <div className="selected-doorlock">
             <h3>{selectedDoorlock.name}</h3>
             <img src={selectedDoorlock.image} alt={selectedDoorlock.name} className="selected-image" />
-            <p>{selectedDoorlock.description}</p>
             <p>Price: ${selectedDoorlock.price}</p>
             <div className="button-container">
               {isInCart(selectedDoorlock) ? (
                 <div className="quantity-controls">
                   <button onClick={() => handleQuantityChange(-1, selectedDoorlock)}>-</button>
-                  <input
-                    type="text"
-                    className="quantity"
-                    value={quantity}
-                    readOnly
-                  />
+                  <input type="text" className="quantity" value={quantity} readOnly />
                   <button onClick={() => handleQuantityChange(1, selectedDoorlock)}>+</button>
                   <button onClick={() => handleRemoveFromCart(selectedDoorlock.id)}>Remove from Cart</button>
                 </div>
@@ -162,21 +177,16 @@ function SmartDoorlock() {
               {accessories.length > 0 ? (
                 <div className="accessories-gallery">
                   {accessories.map((accessory) => (
-                    <div key={accessory.id} className="accessory-item">
-                      <img src={accessory.image} alt={accessory.name} className="accessory-image"/>
+                    <div key={accessory.id} className="accessories-item">
+                      <img src={accessory.image} alt={accessory.name} className="accessories-image" />
                       <h4>{accessory.name}</h4>
                       <p>Price: ${accessory.price}</p>
                       <div className="button-container">
                         {isInCart(accessory) ? (
                           <div className="quantity-controls">
-                            <button onClick={() => handleAccessoryQuantityChange(-1, accessory)}>-</button>
-                            <input
-                              type="text"
-                              className="quantity"
-                              value={selectedAccessories[accessory.id] || 1}
-                              readOnly
-                            />
-                            <button onClick={() => handleAccessoryQuantityChange(1, accessory)}>+</button>
+                            <button onClick={() => handleQuantityChange(-1, accessory)}>-</button>
+                            <input type="text" className="quantity" value={quantity} readOnly />
+                            <button onClick={() => handleQuantityChange(1, accessory)}>+</button>
                             <button onClick={() => handleRemoveFromCart(accessory.id)}>Remove from Cart</button>
                           </div>
                         ) : (
@@ -189,6 +199,26 @@ function SmartDoorlock() {
               ) : (
                 <p>No accessories available for this doorlock.</p>
               )}
+            </div>
+
+            <div className="reviews-section">
+              <h4>Customer Reviews</h4>
+              <button onClick={handleViewReviews}>View Reviews</button>
+
+              {showReviews && (
+                <div className="reviews-box">
+                  {reviews.length > 0 ? (
+                    reviews.map((review, index) => (
+                      <div key={index} className="review-item">
+                        <p>{review.review}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No reviews yet. Be the first to review this product!</p>
+                  )}
+                </div>
+              )}
+              <button onClick={handleWriteReview}>Write a Review</button>
             </div>
           </div>
         )}

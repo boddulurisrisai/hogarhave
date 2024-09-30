@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useCart } from '../CartContext'; // Import useCart hook
 import Header from '../components/LoginHeader'; // Import Header component
 import { useProduct } from '../ProductContext'; // Import ProductContext
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
 
-// Hardcoded accessories data
+// Hardcoded accessories data for smart speakers
 const accessoriesData = {
   "Amazon Echo Dot (4th Gen)": [
     { id: '1', name: 'Charging Cable', price: 130, image: '/images/speaker/accessories/ChargingCable.webp' },
@@ -29,71 +30,74 @@ const accessoriesData = {
     { id: '1', name: 'Charging Cable', price: 130, image: '/images/speaker/accessories/ChargingCable.webp' },
     { id: '2', name: 'Mount', price: 30, image: '/images/speaker/accessories/Wall Mounted.webp' },
     { id: '3', name: 'Wall Mount', price: 20, image: '/images/speaker/accessories/WallMount.webp' },
-   ]
+  ],
 };
 
-function SmartSpeaker() {
+function SmartSpeakers() {
   const { products } = useProduct();
   const { cart, addToCart, removeFromCart, updateItemQuantity } = useCart();
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [accessories, setAccessories] = useState([]);
-  const [selectedAccessories, setSelectedAccessories] = useState({});
+  const [reviews, setReviews] = useState([]);
+  const [showReviews, setShowReviews] = useState(false);
+  const navigate = useNavigate();
 
-  // Filter products by category
   const speakers = products ? products.filter(product => product.category === 'Smart Speakers') : [];
 
   useEffect(() => {
     if (selectedSpeaker) {
       const accessoryData = accessoriesData[selectedSpeaker.name] || [];
       setAccessories(accessoryData);
-      // Initialize accessory quantities
-      const initialQuantities = accessoryData.reduce((acc, accessory) => {
-        acc[accessory.id] = 1;
-        return acc;
-      }, {});
-      setSelectedAccessories(initialQuantities);
+      setReviews([]);
+      setShowReviews(false);
     }
   }, [selectedSpeaker]);
 
   const handleImageClick = (speaker) => {
     setSelectedSpeaker(speaker);
-    setQuantity(1); // Reset quantity when selecting a new speaker
+    setQuantity(1);
   };
 
   const handleQuantityChange = (amount, item) => {
-    if (item) {
-      const newQuantity = Math.max(1, quantity + amount); // Ensure quantity is at least 1
-      setQuantity(newQuantity);
-      updateItemQuantity(item.id, newQuantity);
-    }
+    const newQuantity = Math.max(1, quantity + amount);
+    setQuantity(newQuantity);
+    if (item) updateItemQuantity(item.id, newQuantity);
   };
 
   const isInCart = (item) => cart ? cart.some(cartItem => cartItem.id === item.id) : false;
 
   const handleAddToCart = (item) => {
-    if (item) {
+    try {
       addToCart(item);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
     }
   };
 
   const handleRemoveFromCart = (itemId) => {
-    removeFromCart(itemId);
-  };
-
-  const handleAccessoryQuantityChange = (amount, accessory) => {
-    if (accessory) {
-      const newQuantity = Math.max(1, (selectedAccessories[accessory.id] || 1) + amount);
-      setSelectedAccessories(prevQuantities => ({
-        ...prevQuantities,
-        [accessory.id]: newQuantity,
-      }));
+    try {
+      removeFromCart(itemId);
+    } catch (error) {
+      console.error('Error removing from cart:', error);
     }
   };
 
+  const handleViewReviews = () => {
+    if (selectedSpeaker) {
+      navigate('/view-reviews', { state: { productModelName: selectedSpeaker.name } });
+    } else {
+      console.log('No speaker selected.');
+    }
+  };
+
+  const handleWriteReview = () => {
+    navigate('/write-review', { state: { speaker: selectedSpeaker } });
+  };
+
   return (
-    <div className="smart-speaker-page">
-      <Header /> {/* Include Header component */}
+    <div className="smart-speakers-page">
+      <Header />
       <main className="main-content">
         <h2>Smart Speakers</h2>
         <div className="product-gallery">
@@ -112,12 +116,7 @@ function SmartSpeaker() {
                   {isInCart(speaker) ? (
                     <div className="quantity-controls">
                       <button onClick={() => handleQuantityChange(-1, speaker)}>-</button>
-                      <input
-                        type="text"
-                        className="quantity"
-                        value={quantity}
-                        readOnly
-                      />
+                      <input type="text" className="quantity" value={quantity} readOnly />
                       <button onClick={() => handleQuantityChange(1, speaker)}>+</button>
                       <button onClick={() => handleRemoveFromCart(speaker.id)}>Remove from Cart</button>
                     </div>
@@ -132,23 +131,16 @@ function SmartSpeaker() {
           )}
         </div>
 
-        {/* Display selected speaker details and accessories */}
         {selectedSpeaker && (
           <div className="selected-speaker">
             <h3>{selectedSpeaker.name}</h3>
             <img src={selectedSpeaker.image} alt={selectedSpeaker.name} className="selected-image" />
-            <p>{selectedSpeaker.description}</p>
             <p>Price: ${selectedSpeaker.price}</p>
             <div className="button-container">
               {isInCart(selectedSpeaker) ? (
                 <div className="quantity-controls">
                   <button onClick={() => handleQuantityChange(-1, selectedSpeaker)}>-</button>
-                  <input
-                    type="text"
-                    className="quantity"
-                    value={quantity}
-                    readOnly
-                  />
+                  <input type="text" className="quantity" value={quantity} readOnly />
                   <button onClick={() => handleQuantityChange(1, selectedSpeaker)}>+</button>
                   <button onClick={() => handleRemoveFromCart(selectedSpeaker.id)}>Remove from Cart</button>
                 </div>
@@ -162,21 +154,16 @@ function SmartSpeaker() {
               {accessories.length > 0 ? (
                 <div className="accessories-gallery">
                   {accessories.map((accessory) => (
-                    <div key={accessory.id} className="accessory-item">
-                      <img src={accessory.image} alt={accessory.name} className="accessory-image"/>
+                    <div key={accessory.id} className="accessories-item">
+                      <img src={accessory.image} alt={accessory.name} className="accessories-image" />
                       <h4>{accessory.name}</h4>
                       <p>Price: ${accessory.price}</p>
                       <div className="button-container">
                         {isInCart(accessory) ? (
                           <div className="quantity-controls">
-                            <button onClick={() => handleAccessoryQuantityChange(-1, accessory)}>-</button>
-                            <input
-                              type="text"
-                              className="quantity"
-                              value={selectedAccessories[accessory.id] || 1}
-                              readOnly
-                            />
-                            <button onClick={() => handleAccessoryQuantityChange(1, accessory)}>+</button>
+                            <button onClick={() => handleQuantityChange(-1, accessory)}>-</button>
+                            <input type="text" className="quantity" value={quantity} readOnly />
+                            <button onClick={() => handleQuantityChange(1, accessory)}>+</button>
                             <button onClick={() => handleRemoveFromCart(accessory.id)}>Remove from Cart</button>
                           </div>
                         ) : (
@@ -190,6 +177,26 @@ function SmartSpeaker() {
                 <p>No accessories available for this speaker.</p>
               )}
             </div>
+
+            <div className="reviews-section">
+              <h4>Customer Reviews</h4>
+              <button onClick={handleViewReviews}>View Reviews</button>
+
+              {showReviews && (
+                <div className="reviews-box">
+                  {reviews.length > 0 ? (
+                    reviews.map((review, index) => (
+                      <div key={index} className="review-item">
+                        <p>{review.review}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No reviews yet. Be the first to review this product!</p>
+                  )}
+                </div>
+              )}
+              <button onClick={handleWriteReview}>Write a Review</button>
+            </div>
           </div>
         )}
       </main>
@@ -197,4 +204,4 @@ function SmartSpeaker() {
   );
 }
 
-export default SmartSpeaker;
+export default SmartSpeakers;
