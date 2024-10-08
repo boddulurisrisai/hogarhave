@@ -4,6 +4,7 @@ import { useCart } from '../CartContext';
 import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import '../pages/StoreManagerLoginPage';
 import '../pages/OrdersPage';
+import '../pages/InventoryPage';
 
 function StoreManagerHeader() {
   const { cart } = useCart();
@@ -63,6 +64,9 @@ function StoreManagerHeader() {
           </li>
           <li className={isActive('/products/thermostats') ? 'active' : ''}>
             <Link to="/products/thermostats">Smart Thermostat</Link>
+          </li>
+          <li className={isActive('/inventory') ? 'active' : ''}>
+            <Link to="/inventory">Inventory</Link>
           </li>
 
           <li className="cart-icon">

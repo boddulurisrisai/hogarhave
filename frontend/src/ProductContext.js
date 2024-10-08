@@ -1,8 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 
 // Create a new context for products
 const ProductContext = createContext();
 
+const updateLocalStorage = (products) => {
+  localStorage.setItem('products', JSON.stringify(products));
+};
 // Create a custom hook to use the ProductContext
 export const useProduct = () => {
   return useContext(ProductContext);
@@ -338,30 +342,75 @@ export const ProductProvider = ({ children }) => {
   // Continue adding more products for Smart Speakers, Smart Lightings, and Smart Thermostats
   });
 
+  const saveProductsToDatabase = async () => {
+    const savedProducts = localStorage.getItem('products');
+    if (savedProducts) {
+      const productArray = JSON.parse(savedProducts);
+
+      // Convert product array to a format suitable for the database
+      const formattedProducts = productArray.map(product => ({
+        product_name: product.name,
+        product_category: product.category,
+        product_price: product.price,
+        product_image: product.image,
+      }));
+
+      try {
+        const response = await axios.post('http://localhost:3030/api/products', formattedProducts);
+        console.log('Products saved to database:', response.data);
+      } catch (error) {
+        console.error('Error saving products:', error);
+      }
+    }
+  };
+
   // Save products to localStorage whenever products change
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(products));
   }, [products]);
+/*
+  useEffect(() => {
+    saveProductsToDatabase(); // Call the function when the component mounts
+  }, []);*/
+
+  // Function to fetch products from an API (optional)
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('https://localhost:3030/api/products'); // Adjust the API endpoint as necessary
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    }
+  };
+
+  const addProduct = (product) => {
+    const updatedProducts = [...products, product];
+    setProducts(updatedProducts);
+    updateLocalStorage(updatedProducts);
+  };
+
+  const updateProduct = (updatedProduct) => {
+    const updatedProducts = products.map((product) =>
+      product.id === updatedProduct.id ? updatedProduct : product
+    );
+    setProducts(updatedProducts);
+    updateLocalStorage(updatedProducts);
+  };
+
+  const removeProduct = (productId) => {
+    const updatedProducts = products.filter(product => product.id !== productId);
+    setProducts(updatedProducts);
+    updateLocalStorage(updatedProducts);
+  };
 
   // Function to add a new product
-  const addProduct = (product) => {
-    setProducts((prevProducts) => [...prevProducts, product]);
-  };
+  
+
 
   // Function to update an existing product
   
 
-  const updateProduct = (updatedProduct) => {
-    setProducts(products.map(product =>
-      product.id === updatedProduct.id ? updatedProduct : product
-    ));
-  };
-
-  // Function to remove a product by ID
-  const removeProduct = (productId) => {
-    setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
-  };
-
+  
   // Function to publish or unpublish a product
   const togglePublishProduct = (productId, published) => {
     setProducts((prevProducts) =>

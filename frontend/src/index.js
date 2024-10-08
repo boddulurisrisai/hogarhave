@@ -28,6 +28,7 @@ import ProductPage from './pages/ProductPage';
 import ProductReviewForm from './pages/ProductReviewForm';
 import ViewReviews from './pages/ViewReviews';
 import TrendingPage from './pages/TrendingPage';
+import InventoryPage from './pages/InventoryPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -59,6 +60,7 @@ root.render(
               <Route path="/write-review" element={<ProductReviewForm />} />           
               <Route path="/view-reviews" element={<ViewReviews />} />
               <Route path="/trending" element={<TrendingPage />} />
+              <Route path="/inventory" element={<InventoryPage />} />
 </Routes>
           </CartProvider>
         </ProductProvider>

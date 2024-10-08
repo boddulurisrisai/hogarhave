@@ -6,34 +6,19 @@ const correctCredentials = {
   email: 'higherauthority@gmail.com',
   password: 'manager123'
 };
+
 function StoreManagerLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    try {
-      const response = await fetch('http://localhost:3030/store-manager/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        navigate('/store-manager/dashboard'); // Redirect to the store manager dashboard
-      } else {
-        setError(data.error || 'Your credentials are wrong. Please try again.'); // Show error message
-      }
-    } catch (err) {
-      console.error('Error during login:', err);
-      setError('An error occurred during login');
+    if (email === correctCredentials.email && password === correctCredentials.password) {
+      navigate('/store-manager/dashboard'); // Redirect to the store manager dashboard
+    } else {
+      alert('Your credentials are wrong. Please try again.'); // Show popup message
     }
   };
 
@@ -45,7 +30,6 @@ function StoreManagerLoginPage() {
           <section id="content">
             <h2>Store Manager Login</h2>
             <form onSubmit={handleSubmit}>
-              {error && <p className="error-message">{error}</p>}
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
                 <input
