@@ -1,70 +1,43 @@
-import React from 'react';
-import './App.css';
-import Header from './components/Header'; // Corrected import path
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Components/Home';
+import Navbar from "./Components/Navbar/navbar";
+import Login from './Components/Login/login';
+import Create from './Components/Create-Account/create';
+import Cart from './Components/Cart/cart';
+import Checkout from './Components/Checkout/checkout';
+import Chatbot from './Components/Chat/Chat';
+import Footer from './Components/Foooter/footer';
+import Orders from './Components/Orders/Orders';
 
 function App() {
-  return (
-    <div id="container">
-      {/* Use the imported Header component here */}
-      <Header />
+    return (
+        <Router>
+            {/* Navbar is rendered for all routes */}
+            <Navbar />
 
-      <div id="body">
-        <aside className="sidebar">
-          <h3>Categories</h3>
-          <ul>
-            <li><a href="/">Smart Doorbells</a></li>
-            <li><a href="/">Smart Doorlocks</a></li>
-            <li><a href="/">Smart Speakers</a></li>
-            <li><a href="/">Smart Lighting</a></li>
-            <li><a href="/">Smart Thermostats</a></li>
-          </ul>
-        </aside>
+            <Routes>
+                {/* Home page route */}
+                <Route path="/" index element={<Home />} />
 
-        <main className="product-highlights">
-          <h1>Welcome to SmartHomes</h1>
-          <p>Your one-stop shop for smart home devices.</p>
+                {/* Login and Create routes */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/create" element={<Create />} />
 
-          <div className="product-grid">
-            <div className="product-item">
-              <h2>Smart Doorbell</h2>
-              <img src="./images/doorbell/smart-doorbell.jpg" alt="Smart Doorbell" />
-              <p>Keep an eye on your front door with our advanced smart doorbells.</p>
-            </div>
+                {/* Cart and Checkout routes */}
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
 
-            <div className="product-item">
-              <h2>Smart Doorlock</h2>
-              <img src="./images/doorlock/smart-doorlock.jpg" alt="Smart Doorlock" />
-              <p>Secure your home with our state-of-the-art smart doorlocks.</p>
-            </div>
+                {/* Orders route */}
+                <Route path="/orders" element={<Orders />} />
 
-            <div className="product-item">
-              <h2>Smart Speaker</h2>
-              <img src="./images/speaker/smart-speaker.jpg" alt="Smart Speaker" />
-              <p>Control your home with voice-activated smart speakers.</p>
-            </div>
+                {/* Chatbot and Footer routes */}
+                <Route path="/chatbot" element={<Chatbot />} />
+                <Route path="/footer" element={<Footer />} />
+            </Routes>
 
-            <div className="product-item">
-              <h2>Smart Lighting</h2>
-              <img src="./images/lighting/smart-lighting.jpg" alt="Smart Lighting" />
-              <p>Automate your lighting with our energy-efficient smart lighting solutions.</p>
-            </div>
-
-            <div className="product-item">
-              <h2>Smart Thermostat</h2>
-              <img src="./images/thermostat/smart-thermostat.jpg" alt="Smart Thermostat" />
-              <p>Maintain the perfect temperature with smart thermostats.</p>
-            </div>
-          </div>
-        </main>
-      </div>
-
-      <footer>
-        <div className="footer-content">
-          <p>&copy; 2024 SmartHomes. All rights reserved.</p>
-        </div>
-      </footer>
-    </div>
-  );
+        </Router>
+    );
 }
 
 export default App;
